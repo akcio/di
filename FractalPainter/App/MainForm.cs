@@ -30,10 +30,10 @@ namespace FractalPainting.App
             pictureBox.Dock = DockStyle.Fill;
             Controls.Add(pictureBox);
 
-            DependencyInjector.Inject<IImageHolder>(actions, pictureBox);
-            DependencyInjector.Inject<IImageDirectoryProvider>(actions, imageDirectoryProvider);
-            // DependencyInjector.Inject<IImageSettingsProvider>(actions, CreateSettingsManager().Load());
-            DependencyInjector.Inject(actions, palette);
+            // DependencyInjector.Inject<IImageHolder>(actions, pictureBox);
+            // DependencyInjector.Inject<IImageDirectoryProvider>(actions, imageDirectoryProvider);
+            // // DependencyInjector.Inject<IImageSettingsProvider>(actions, CreateSettingsManager().Load());
+            // DependencyInjector.Inject(actions, palette);
         }
 
         protected override void OnShown(EventArgs e)
