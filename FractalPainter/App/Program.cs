@@ -6,6 +6,7 @@ using FractalPainting.Infrastructure.Common;
 using FractalPainting.Infrastructure.UiActions;
 using Ninject;
 using Ninject.Extensions.Factory;
+using Ninject.Extensions.Conventions;
 
 namespace FractalPainting.App
 {
@@ -24,11 +25,20 @@ namespace FractalPainting.App
                 // start here
                 // container.Bind<TService>().To<TImplementation>();
                 container.Bind<Form>().To<MainForm>();
-                container.Bind<IUiAction>().To<SaveImageAction>();
-                container.Bind<IUiAction>().To<DragonFractalAction>();
-                container.Bind<IUiAction>().To<KochFractalAction>();
-                container.Bind<IUiAction>().To<ImageSettingsAction>();
-                container.Bind<IUiAction>().To<PaletteSettingsAction>();
+                
+                container.Bind( x => x
+                    .FromThisAssembly() // 1
+                    // .IncludingNonePublicTypes()
+                    .SelectAllClasses()
+                    .InheritedFrom<IUiAction>() // 2
+                    .BindAllInterfaces() // 3
+                 ); // 4
+                
+                // container.Bind<IUiAction>().To<SaveImageAction>();
+                // container.Bind<IUiAction>().To<DragonFractalAction>();
+                // container.Bind<IUiAction>().To<KochFractalAction>();
+                // container.Bind<IUiAction>().To<ImageSettingsAction>();
+                // container.Bind<IUiAction>().To<PaletteSettingsAction>();
                 container.Bind<Palette>().ToSelf().InSingletonScope();
                 container.Bind<IImageHolder, PictureBoxImageHolder>()
                     .To<PictureBoxImageHolder>().InSingletonScope();
@@ -41,6 +51,9 @@ namespace FractalPainting.App
                     t => t.Kernel.Get<SettingsManager>().Load()
                     ).InSingletonScope();
                 container.Bind<ImageSettings>().ToMethod(t => t.Kernel.Get<AppSettings>().ImageSettings).InSingletonScope();
+                
+                
+                
                 // container.Bind<SettingsManager>().ToSelf().InSingletonScope();
                 // container.Bind<IImageSettingsProvider>().ToMethod(t => t.Kernel.Get<SettingsManager>().Load());
 
