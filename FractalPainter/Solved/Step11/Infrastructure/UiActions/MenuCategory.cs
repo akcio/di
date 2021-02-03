@@ -4,13 +4,13 @@ namespace FractalPainting.Solved.Step11.Infrastructure.UiActions
 {
     public enum MenuCategory
     {
-        [Description("Файл")]
+        [Description("Р¤Р°Р№Р»")]
         File = 0,
 
-        [Description("Фракталы")]
+        [Description("Р¤СЂР°РєС‚Р°Р»С‹")]
         Fractals = 1,
 
-        [Description("Настройки")]
+        [Description("РќР°СЃС‚СЂРѕР№РєРё")]
         Settings = 2,
     }
 }

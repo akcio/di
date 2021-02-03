@@ -18,7 +18,7 @@ namespace FractalPainting.App.Actions
             // this.imageSettingsProvider = provider;
         }
 
-        public string Category => "Настройки";
+        public MenuGroup Category => MenuGroup.Settings;
         public string Name => "Изображение...";
         public string Description => "Размеры изображения";
 
