@@ -17,8 +17,8 @@ namespace FractalPainting.App
         [STAThread]
         private static void Main()
         {
-            try
-            {
+            // try
+            // {
                 var container = new StandardKernel();
 
                 // start here
@@ -34,15 +34,24 @@ namespace FractalPainting.App
                     .To<PictureBoxImageHolder>().InSingletonScope();
 
                 container.Bind<IDragonPainterFactory>().ToFactory();
+                
+                container.Bind<IObjectSerializer>().To<XmlObjectSerializer>().WhenInjectedInto<SettingsManager>();
+                container.Bind<IBlobStorage>().To<FileBlobStorage>().WhenInjectedInto<SettingsManager>();
+                container.Bind<AppSettings, IImageDirectoryProvider>().ToMethod(
+                    t => t.Kernel.Get<SettingsManager>().Load()
+                    ).InSingletonScope();
+                container.Bind<ImageSettings>().ToMethod(t => t.Kernel.Get<AppSettings>().ImageSettings).InSingletonScope();
+                // container.Bind<SettingsManager>().ToSelf().InSingletonScope();
+                // container.Bind<IImageSettingsProvider>().ToMethod(t => t.Kernel.Get<SettingsManager>().Load());
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(container.Get<Form>());
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+            // }
+            // catch (Exception e)
+            // {
+                // MessageBox.Show(e.Message);
+            // }
         }
     }
 }
