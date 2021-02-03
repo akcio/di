@@ -1,4 +1,5 @@
-﻿using FractalPainting.Infrastructure.Common;
+﻿using System.Runtime.InteropServices.ComTypes;
+using FractalPainting.Infrastructure.Common;
 using FractalPainting.Infrastructure.Injection;
 using FractalPainting.Infrastructure.UiActions;
 
@@ -8,13 +9,16 @@ namespace FractalPainting.App.Actions
     {
         private IImageHolder imageHolder;
 
-        private ImageSettings _imageSettings;
+        private ImageSettings imageSettings;
+
+        private SettingsManager manager;
         // private IImageSettingsProvider imageSettingsProvider;
 
-        public ImageSettingsAction(IImageHolder imageHolder, ImageSettings imageSettings)
+        public ImageSettingsAction(IImageHolder imageHolder, ImageSettings imageSettings, SettingsManager manager)
         {
             this.imageHolder = imageHolder;
-            this._imageSettings = imageSettings;
+            this.imageSettings = imageSettings;
+            this.manager = manager;
             // this.imageSettingsProvider = provider;
         }
 
@@ -25,8 +29,11 @@ namespace FractalPainting.App.Actions
         public void Perform()
         {
             // var imageSettings = imageSettingsProvider.ImageSettings;
-            SettingsForm.For(_imageSettings).ShowDialog();
-            imageHolder.RecreateImage(_imageSettings);
+            SettingsForm.For(imageSettings).ShowDialog();
+            imageHolder.RecreateImage(imageSettings);
+            var appSettings = manager.Load();
+            appSettings.ImageSettings = imageSettings;
+            manager.Save(appSettings);
         }
     }
 }
