@@ -8,23 +8,11 @@ namespace FractalPainting.App.Actions
 {
     public class KochFractalAction : IUiAction
     {
-        private IImageHolder imageHolder;
-        private Palette palette;
-
-        public KochFractalAction(IImageHolder imageHolder, Palette palette)
-        {
-            this.imageHolder = imageHolder;
-            this.palette = palette;
-        }
+        private KochPainter painter;
         
-        public void SetDependency(IImageHolder dependency)
+        public KochFractalAction(KochPainter painter)
         {
-            imageHolder = dependency;
-        }
-
-        public void SetDependency(Palette dependency)
-        {
-            palette = dependency;
+            this.painter = painter;
         }
 
         public string Category => "Фракталы";
@@ -33,11 +21,11 @@ namespace FractalPainting.App.Actions
 
         public void Perform()
         {
-            var container = new StandardKernel();
-            container.Bind<IImageHolder>().ToConstant(imageHolder);
-            container.Bind<Palette>().ToConstant(palette);
+            // var container = new StandardKernel();
+            // container.Bind<IImageHolder>().ToConstant(imageHolder);
+            // container.Bind<Palette>().ToConstant(palette);
 
-            container.Get<KochPainter>().Paint();
+            painter.Paint();
         }
     }
 }
